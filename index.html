@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>产程图</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .title {
+            margin-bottom: 10px;
+        }
+
+        .title div:first-child {
+            font-size: 18px;
+        }
+
+        .title div:nth-child(2) {
+            font-size: 28px;
+        }
+
+        .friedman {
+            text-align: center;
+            /* border: 1px solid #000000; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <div>XXXXXXXXXX医院</div>
+        <div>产&nbsp;&nbsp;&nbsp;&nbsp;程&nbsp;&nbsp;&nbsp;&nbsp;图</div>
+    </div>
+    <div class="friedman">
+        <canvas id="background" width="1040" height="520">
+        </canvas>
+    </div>
+</body>
+
+</html>
+<script>
+    var canvas;
+    var ctx;
+    // var margin = 20;
+    var space = 20; //轴的离边距离
+    var xSpace = 40;
+    var width;
+    var height;
+    var originX;
+    var originY;
+    var xGridSize = 48; // x10 + 40 = height
+    var yGridSize = 40; // x24 + 40 = width
+    var timeCount = 24;
+    var data = [{
+        time: 0,
+        value: 1
+    }, {
+        time: 1,
+        value: 2
+    }, {
+        time: 2,
+        value: 4
+    }, {
+        time: 3,
+        value: 5
+    }, {
+        time: 4,
+        value: 5
+    }, {
+        time: 5,
+        value: 5
+    }, {
+        time: 6,
+        value: 6
+    }, {
+        time: 7,
+        value: 4
+    }];
+
+    function init() {
+        canvas = document.getElementById('background');
+        ctx = canvas.getContext('2d');
+        width = canvas.width - xSpace - xSpace; //减去左右两侧
+        height = canvas.height - space;
+        originX = xSpace;
+        originY = height;
+        //ctx.translate(0.5, 0.5);
+
+        ctx.font = "14px Arial";
+        ctx.lineWidth = 2;
+        colorReset();
+
+        console.log(`originX:${originX}`);
+        console.log(`originY:${originY}`);
+        console.log(`width:${width}`);
+        console.log(`height:${height}`);
+
+        // y轴
+        drawLine(originX, originY, originX, space);
+        // x轴
+        drawLine(originX, originY, originX + width, originY);
+        // 上横线
+        drawLine(originX, space, originX + width, space);
+        // 右竖线
+        drawLine(originX + width, originY, originX + width, space);
+
+        ctx.lineWidth = 1;
+
+        // 绘制X轴方向的线
+        var xCount = Math.floor(height / xGridSize);
+        for (var i = 0; i < xCount; i++) {
+            ctx.beginPath();
+            ctx.moveTo(originX, i * xGridSize + space - 0.5);
+            ctx.lineTo(originX + width, i * xGridSize + space - 0.5);
+            ctx.stroke();
+        }
+
+        // 绘制Y轴方向的线
+        yGridSize = Math.floor(width / timeCount);
+        var yCount = Math.floor(width / yGridSize);
+        for (var i = 0; i < yCount; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * yGridSize + xSpace - 0.5, space);
+            ctx.lineTo(i * yGridSize + xSpace - 0.5, height);
+            ctx.stroke();
+        }
+        ctx.lineWidth = 2;
+        drawTitle();
+        drawGJKZ();
+        drawXLXJ();
+    }
+
+    // 绘制文字及坐标值
+    function drawTitle() {
+        // X轴坐标值绘制
+        arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+        for (var i = 0; i < arr.length; i++) {
+            ctx.fillText(arr[i], i * yGridSize + 74, height + space);
+        }
+
+        // X轴上侧文字绘制
+        let topY = space - 8;
+        ctx.fillText('姓名：', xSpace * 2, topY);
+        ctx.fillText('周杰伦', xSpace * 3, topY);
+        ctx.fillText('年龄：', xSpace * 5, topY);
+        ctx.fillText('14', xSpace * 6, topY);
+        ctx.fillText('胎次：', xSpace * 7, topY);
+        ctx.fillText('100', xSpace * 8, topY);
+        ctx.fillText('产次：', xSpace * 9, topY);
+        ctx.fillText('100', xSpace * 10, topY);
+        ctx.fillText('孕次：', xSpace * 11, topY);
+        ctx.fillText('100', xSpace * 12, topY);
+        ctx.fillText('孕周：', xSpace * 13, topY);
+        ctx.fillText('100', xSpace * 14, topY);
+        ctx.fillText('孕产号：', xSpace * 15, topY);
+        ctx.fillText('100000000', xSpace * 16 + 13, topY);
+        ctx.fillText('病案号：', xSpace * 19, topY);
+        ctx.fillText('200000000', xSpace * 20 + 13, topY);
+
+
+        // Y轴坐标值及文字
+        var arr = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
+        for (var i = 0; i < arr.length; i++) {
+            ctx.fillText(arr[i], space, xGridSize * i + 22);
+        }
+        ctx.fillText('宫', 0, xGridSize + 18);
+        ctx.fillText('口', 0, xGridSize + 38);
+        ctx.fillText('扩', 0, xGridSize + 58);
+        ctx.fillText('张', 0, xGridSize + 78);
+        ctx.fillText('公', 0, xGridSize + 118);
+        ctx.fillText('分', 0, xGridSize + 138);
+        drawCircle(7, xGridSize + 168);
+        ctx.fillText('|', 5, xGridSize + 188);
+        drawCircle(7, xGridSize + 200);
+        ctx.fillText('红', 0, xGridSize + 240);
+        ctx.fillText('色', 0, xGridSize + 260);
+
+        // Y轴右边坐标值及文字
+        arr = ['+5', '+4', '+3', '+2', '+1', '0', '-1', '-2', '-3', '-4', '-5'];
+        for (var i = 0; i < arr.length; i++) {
+            ctx.fillText(arr[i], originX + width + 3, xGridSize * i + 22);
+        }
+        ctx.fillText('先', originX + width + space + 6, xGridSize + 18);
+        ctx.fillText('露', originX + width + space + 6, xGridSize + 38);
+        ctx.fillText('高', originX + width + space + 6, xGridSize + 58);
+        ctx.fillText('低', originX + width + space + 6, xGridSize + 78);
+        drawStar(originX + width + space + 11, xGridSize + 108);
+        colorReset();
+        ctx.fillText('|', originX + width + space + 9, xGridSize + 128);
+        drawStar(originX + width + space + 11, xGridSize + 142);
+        colorReset();
+    }
+
+    // 宫颈扩张曲线
+    function drawGJKZ() {
+        ctx.strokeStyle = "#FF0000";
+        ctx.beginPath();
+        ctx.moveTo(xSpace, height);
+        ctx.lineTo(xSpace + yGridSize, height - xGridSize);
+        ctx.stroke();
+        drawCircle(xSpace + yGridSize, height - xGridSize);
+    }
+
+    // 先露下降曲线
+    function drawXLXJ() {
+        ctx.strokeStyle = "#0000FF";
+        ctx.beginPath();
+        ctx.moveTo(xSpace, height - xGridSize);
+        ctx.lineTo(xSpace + yGridSize, height - xGridSize * 2);
+        ctx.stroke();
+        drawStar(xSpace + yGridSize, height - xGridSize * 2);
+    }
+
+    // 红色圆圈
+    function drawCircle(x, y) {
+        ctx.strokeStyle = "#FF0000";
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
+
+        // ctx.fillStyle = "#FF0000";
+        // ctx.fill(); //填充实心
+
+        ctx.stroke();
+    }
+
+    // 五角星
+    function drawStar(x, y) {
+        ctx.beginPath();
+        var horn = 5; // 画5个角
+        var angle = 360 / horn; // 五个角的度数
+
+        // 两个圆的半径
+        var R = 7;
+        var r = 2.8;
+
+        for (var i = 0; i < horn; i++) {
+            // 角度转弧度：角度/180*Math.PI
+            // 外圆顶点坐标
+            ctx.lineTo(Math.cos((18 + i * angle) / 180 * Math.PI) * R + x, -Math.sin((18 + i * angle) / 180 * Math.PI) * R + y);
+            // 內圆顶点坐标
+            ctx.lineTo(Math.cos((54 + i * angle) / 180 * Math.PI) * r + x, -Math.sin((54 + i * angle) / 180 * Math.PI) * r + y);
+        }
+
+        // closePath：关闭路径，将路径的终点与起点相连
+        ctx.closePath();
+        ctx.fillStyle = '#0000FF';
+        ctx.strokeStyle = "#0000FF";
+        ctx.fill();
+        ctx.stroke();
+    }
+
+    // 绘制颜色重置
+    function colorReset() {
+        ctx.fillStyle = "#000";
+        ctx.strokeStyle = "#000";
+    }
+
+    function drawLine(x, y, X, Y) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(X, Y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    init();
+</script>

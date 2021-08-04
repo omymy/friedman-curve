@@ -27,6 +27,7 @@
             /* border: 1px solid #000000; */
         }
     </style>
+    <script src="jquery-3.0.0.min.js"></script>
 </head>
 
 <body>
@@ -54,35 +55,28 @@
     var xGridSize = 48; // x10 + 40 = height
     var yGridSize = 40; // x24 + 40 = width
     var timeCount = 24;
-    var data = [{
-        time: 0,
-        value: 1
-    }, {
-        time: 1,
-        value: 2
-    }, {
-        time: 2,
-        value: 4
-    }, {
-        time: 3,
-        value: 5
-    }, {
-        time: 4,
-        value: 5
-    }, {
-        time: 5,
-        value: 5
-    }, {
-        time: 6,
-        value: 6
-    }, {
-        time: 7,
-        value: 4
-    }];
+
+    let dataGJKZ = [];
+    for (let i = 0; i < 24; i++) {
+        dataGJKZ.push({
+            time: i,
+            value: randomNum(0, 5) //Math.ceil(Math.random() * 10)
+        });
+    }
+
+    let dataXLXJ = [];
+    for (let i = 0; i < 24; i++) {
+        dataXLXJ.push({
+            time: i,
+            value: randomNum(-2, 2)
+        });
+    }
 
     function init() {
         canvas = document.getElementById('background');
         ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
         width = canvas.width - xSpace - xSpace; //减去左右两侧
         height = canvas.height - space;
         originX = xSpace;
@@ -127,7 +121,6 @@
             ctx.lineTo(i * yGridSize + xSpace - 0.5, height);
             ctx.stroke();
         }
-        ctx.lineWidth = 2;
         drawTitle();
         drawGJKZ();
         drawXLXJ();
@@ -144,7 +137,7 @@
         // X轴上侧文字绘制
         let topY = space - 8;
         ctx.fillText('姓名：', xSpace * 2, topY);
-        ctx.fillText('周杰伦', xSpace * 3, topY);
+        ctx.fillText('张三', xSpace * 3, topY);
         ctx.fillText('年龄：', xSpace * 5, topY);
         ctx.fillText('14', xSpace * 6, topY);
         ctx.fillText('胎次：', xSpace * 7, topY);
@@ -198,20 +191,49 @@
     function drawGJKZ() {
         ctx.strokeStyle = "#FF0000";
         ctx.beginPath();
-        ctx.moveTo(xSpace, height);
-        ctx.lineTo(xSpace + yGridSize, height - xGridSize);
-        ctx.stroke();
-        drawCircle(xSpace + yGridSize, height - xGridSize);
+        let axis = [];
+        for (let i = 0; i < dataGJKZ.length; i++) {
+            let x = xSpace + yGridSize * (i + 1);
+            let y = height - xGridSize * dataGJKZ[i].value;
+            if (i == 0) {
+                ctx.moveTo(xSpace, y);
+                axis.push({ x: xSpace, y: y, v: dataGJKZ[i].value });
+            } else if (dataGJKZ[i].value != null) {
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                axis.push({ x: x, y: y, v: dataGJKZ[i].value });
+            }
+        }
+
+        for (let i = 0; i < axis.length; i++) {
+            drawCircle(axis[i].x, axis[i].y);
+            ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
+        }
     }
 
     // 先露下降曲线
     function drawXLXJ() {
         ctx.strokeStyle = "#0000FF";
         ctx.beginPath();
-        ctx.moveTo(xSpace, height - xGridSize);
-        ctx.lineTo(xSpace + yGridSize, height - xGridSize * 2);
-        ctx.stroke();
-        drawStar(xSpace + yGridSize, height - xGridSize * 2);
+        let axis = [];
+        for (let i = 0; i < dataXLXJ.length; i++) {
+            dataXLXJ[i].value = dataXLXJ[i].value + 5;
+            let x = xSpace + yGridSize * (i + 1);
+            let y = height - xGridSize * dataXLXJ[i].value;
+            if (i == 0) {
+                ctx.moveTo(xSpace, y);
+                axis.push({ x: xSpace, y: y, v: dataXLXJ[i].value - 5 });
+            } else if (dataXLXJ[i].value != null) {
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                axis.push({ x: x, y: y, v: dataXLXJ[i].value - 5 });
+            }
+        }
+
+        for (let i = 0; i < axis.length; i++) {
+            drawStar(axis[i].x, axis[i].y);
+            ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
+        }
     }
 
     // 红色圆圈
@@ -266,5 +288,22 @@
         ctx.closePath();
     }
 
-    init();
+    //生成从minNum到maxNum的随机数
+    function randomNum(minNum, maxNum) {
+        switch (arguments.length) {
+            case 1:
+                return parseInt(Math.random() * minNum + 1, 10);
+                break;
+            case 2:
+                return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    $(function () {
+        init();
+    })
 </script>

@@ -8,6 +8,7 @@
         body {
             text-align: center;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
         }
 
         .title {
@@ -23,8 +24,71 @@
         }
 
         .friedman {
-            text-align: center;
             /* border: 1px solid #000000; */
+            /* width: 100%; */
+        }
+
+        .table {
+            margin-top: 30px;
+            /* border: #000 1px solid; */
+        }
+
+        .table table {
+            width: 960px;
+            margin: auto;
+            border: #000 2px solid;
+            border-collapse: collapse;
+        }
+
+        .table table tr {
+            height: 80px;
+        }
+
+        .table table td {
+            border: #000 1px solid;
+            padding: 4px;
+        }
+
+        .table table tr:first-child td {}
+
+        .table table tr:nth-child(4) {
+            height: 330px;
+        }
+
+        .table table tr:nth-child(6) {
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .table table tr:last-child {
+            text-align: left;
+            height: 40px;
+        }
+
+        #table-title {
+            position: absolute;
+            top: 600px;
+            left: calc(50% - 524px);
+        }
+
+        #table-title p:nth-child(3) {
+            margin-top: 38px;
+        }
+
+        #table-title p:nth-child(4) {
+            margin-top: 44px;
+        }
+
+        #table-title p:nth-child(5) {
+            margin-top: 100px;
+        }
+
+        #table-title p:nth-child(6) {
+            margin-top: 160px;
+        }
+
+        #table-title p:nth-child(7) {
+            margin-top: 80px;
         }
     </style>
     <script src="jquery-3.0.0.min.js"></script>
@@ -38,6 +102,167 @@
     <div class="friedman">
         <canvas id="background" width="1040" height="520">
         </canvas>
+    </div>
+    <div class="table">
+
+        <div id="table-title">
+            <p>检查<br />时间</p>
+            <p>血压<br />mmHg</p>
+            <p>胎心<br />(次/分)</p>
+            <p>宫缩</p>
+            <p>处</p>
+            <p>理</p>
+            <p>签</p>
+            <p>名</p>
+        </div>
+        <table>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="24">
+                    备注：
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    医师：
+                </td>
+                <td colspan="8">
+                    接产者：
+                </td>
+                <td colspan="8">
+                    巡回：
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 
@@ -58,10 +283,17 @@
 
     let dataGJKZ = [];
     for (let i = 0; i < 24; i++) {
-        dataGJKZ.push({
-            time: i,
-            value: randomNum(0, 5) //Math.ceil(Math.random() * 10)
-        });
+        if (i < 8) {
+            dataGJKZ.push({
+                time: i,
+                value: null
+            });
+        } else {
+            dataGJKZ.push({
+                time: i,
+                value: randomNum(0, 5) //Math.ceil(Math.random() * 10)
+            });
+        }
     }
 
     let dataXLXJ = [];
@@ -208,8 +440,10 @@
         }
 
         for (let i = 0; i < axis.length; i++) {
-            drawCircle(axis[i].x, axis[i].y);
-            ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
+            if (axis[i].v != null) {
+                drawCircle(axis[i].x, axis[i].y);
+                //ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
+            }
         }
     }
 
@@ -233,8 +467,10 @@
         }
 
         for (let i = 0; i < axis.length; i++) {
-            drawStar(axis[i].x, axis[i].y);
-            ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
+            if (axis[i].v != null) {
+                drawStar(axis[i].x, axis[i].y);
+                //ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
+            }
         }
     }
 
@@ -252,28 +488,29 @@
 
     // 五角星
     function drawStar(x, y) {
-        ctx.beginPath();
-        var horn = 5; // 画5个角
-        var angle = 360 / horn; // 五个角的度数
+        ctx.fillText('X', x, y);
+        // ctx.beginPath();
+        // var horn = 5; // 画5个角
+        // var angle = 360 / horn; // 五个角的度数
 
-        // 两个圆的半径
-        var R = 7;
-        var r = 2.8;
+        // // 两个圆的半径
+        // var R = 7;
+        // var r = 2.8;
 
-        for (var i = 0; i < horn; i++) {
-            // 角度转弧度：角度/180*Math.PI
-            // 外圆顶点坐标
-            ctx.lineTo(Math.cos((18 + i * angle) / 180 * Math.PI) * R + x, -Math.sin((18 + i * angle) / 180 * Math.PI) * R + y);
-            // 內圆顶点坐标
-            ctx.lineTo(Math.cos((54 + i * angle) / 180 * Math.PI) * r + x, -Math.sin((54 + i * angle) / 180 * Math.PI) * r + y);
-        }
+        // for (var i = 0; i < horn; i++) {
+        //     // 角度转弧度：角度/180*Math.PI
+        //     // 外圆顶点坐标
+        //     ctx.lineTo(Math.cos((18 + i * angle) / 180 * Math.PI) * R + x, -Math.sin((18 + i * angle) / 180 * Math.PI) * R + y);
+        //     // 內圆顶点坐标
+        //     ctx.lineTo(Math.cos((54 + i * angle) / 180 * Math.PI) * r + x, -Math.sin((54 + i * angle) / 180 * Math.PI) * r + y);
+        // }
 
-        // closePath：关闭路径，将路径的终点与起点相连
-        ctx.closePath();
-        ctx.fillStyle = '#0000FF';
-        ctx.strokeStyle = "#0000FF";
-        ctx.fill();
-        ctx.stroke();
+        // // closePath：关闭路径，将路径的终点与起点相连
+        // ctx.closePath();
+        // ctx.fillStyle = '#0000FF';
+        // ctx.strokeStyle = "#0000FF";
+        // ctx.fill();
+        // ctx.stroke();
     }
 
     // 绘制颜色重置

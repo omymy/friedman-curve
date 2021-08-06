@@ -4,14 +4,15 @@
 <head>
     <meta charset="utf-8" />
     <title>产程图</title>
+    <link href="js/layui/css/layui.css" rel="stylesheet" />
     <style>
         body {
-            text-align: center;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 14px;
         }
 
         .title {
+            text-align: center;
             margin-bottom: 10px;
         }
 
@@ -24,19 +25,18 @@
         }
 
         .friedman {
-            /* border: 1px solid #000000; */
-            /* width: 100%; */
+            text-align: center;
         }
 
+        /* 附属表格 */
         .table {
             margin-top: 30px;
-            /* border: #000 1px solid; */
         }
 
         .table table {
             width: 960px;
             margin: auto;
-            border: #000 2px solid;
+            /* border: #000 2px solid; */
             border-collapse: collapse;
         }
 
@@ -45,17 +45,31 @@
         }
 
         .table table td {
+            width: 40px;
+        }
+
+        .table table td {
             border: #000 1px solid;
             padding: 4px;
         }
 
-        .table table tr:first-child td {}
+        .table table tr:first-child {
+            text-align: left;
+            height: 20px;
+        }
 
-        .table table tr:nth-child(4) {
+        .table table tr:first-child td {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom-width: 2px;
+        }
+
+        .table table tr:nth-child(5) {
             height: 330px;
         }
 
-        .table table tr:nth-child(6) {
+        .table table tr:nth-child(7) {
             text-align: left;
             vertical-align: top;
         }
@@ -65,6 +79,14 @@
             height: 40px;
         }
 
+        .table table tr:last-child td {
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+            border-top-width: 2px;
+        }
+
+        /* 附属表格左侧文字 */
         #table-title {
             position: absolute;
             top: 600px;
@@ -90,13 +112,25 @@
         #table-title p:nth-child(7) {
             margin-top: 80px;
         }
+
+        #add-button {
+            position: absolute;
+            left: calc(50% + 411px);
+        }
+
+        #dialog {
+            display: none;
+            padding: 10px;
+        }
     </style>
-    <script src="jquery-3.0.0.min.js"></script>
 </head>
 
 <body>
     <div class="title">
-        <div>XXXXXXXXXX医院</div>
+        <div>
+            <span>XXXXXXXXXX医院</span>
+            <input id="add-button" type="button" value="数据填写" class="layui-btn layui-btn-primary" />
+        </div>
         <div>产&nbsp;&nbsp;&nbsp;&nbsp;程&nbsp;&nbsp;&nbsp;&nbsp;图</div>
     </div>
     <div class="friedman">
@@ -117,6 +151,32 @@
         </div>
         <table>
             <tr>
+                <td>23</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -169,7 +229,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td></td>
+                <td>士<br>大<br>夫<br>胜<br>多<br>负<br>少</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -263,10 +323,76 @@
                 </td>
             </tr>
         </table>
+
+        <div id="dialog">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">输入框</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">密码框</label>
+                  <div class="layui-input-inline">
+                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">选择框</label>
+                  <div class="layui-input-block">
+                    <select name="city" lay-verify="required">
+                      <option value=""></option>
+                      <option value="0">北京</option>
+                      <option value="1">上海</option>
+                      <option value="2">广州</option>
+                      <option value="3">深圳</option>
+                      <option value="4">杭州</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">复选框</label>
+                  <div class="layui-input-block">
+                    <input type="checkbox" name="like[write]" title="写作">
+                    <input type="checkbox" name="like[read]" title="阅读" checked>
+                    <input type="checkbox" name="like[dai]" title="发呆">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">开关</label>
+                  <div class="layui-input-block">
+                    <input type="checkbox" name="switch" lay-skin="switch">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">单选框</label>
+                  <div class="layui-input-block">
+                    <input type="radio" name="sex" value="男" title="男">
+                    <input type="radio" name="sex" value="女" title="女" checked>
+                  </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                  <label class="layui-form-label">文本域</label>
+                  <div class="layui-input-block">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                  </div>
+                </div>
+              </form>
+        </div>
     </div>
 </body>
 
 </html>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/layui/layui.js"></script>
 <script>
     var canvas;
     var ctx;
@@ -281,28 +407,62 @@
     var yGridSize = 40; // x24 + 40 = width
     var timeCount = 24;
 
-    let dataGJKZ = [];
-    for (let i = 0; i < 24; i++) {
-        if (i < 8) {
-            dataGJKZ.push({
-                time: i,
-                value: null
-            });
-        } else {
-            dataGJKZ.push({
-                time: i,
-                value: randomNum(0, 5) //Math.ceil(Math.random() * 10)
-            });
-        }
-    }
+    // let dataGJKZ = [];
+    // for (let i = 0; i < 24; i++) {
+    //     if (i < 8) {
+    //         dataGJKZ.push({
+    //             time: i,
+    //             value: null
+    //         });
+    //     } else {
+    //         dataGJKZ.push({
+    //             time: i,
+    //             value: randomNum(0, 5) //Math.ceil(Math.random() * 10)
+    //         });
+    //     }
+    // }
 
-    let dataXLXJ = [];
-    for (let i = 0; i < 24; i++) {
-        dataXLXJ.push({
-            time: i,
-            value: randomNum(-2, 2)
-        });
-    }
+    // let dataXLXJ = [];
+    // for (let i = 0; i < 24; i++) {
+    //     dataXLXJ.push({
+    //         time: i,
+    //         value: randomNum(-2, 2)
+    //     });
+    // }
+
+    let dataGJKZ = [{
+        time: 0,
+        value: null
+    }, {
+        time: 6.4,
+        value: 3
+    }, {
+        time: 9,
+        value: 5
+    }, {
+        time: 14,
+        value: 7.2
+    }, {
+        time: 14.2,
+        value: 10
+    }];
+
+    let dataXLXJ = [{
+        time: 0,
+        value: -3
+    }, {
+        time: 6.3,
+        value: -2.2
+    }, {
+        time: 11.5,
+        value: -2
+    }, {
+        time: 14,
+        value: -2
+    }, {
+        time: 14.8,
+        value: 5
+    }];
 
     function init() {
         canvas = document.getElementById('background');
@@ -412,10 +572,10 @@
         ctx.fillText('露', originX + width + space + 6, xGridSize + 38);
         ctx.fillText('高', originX + width + space + 6, xGridSize + 58);
         ctx.fillText('低', originX + width + space + 6, xGridSize + 78);
-        drawStar(originX + width + space + 11, xGridSize + 108);
+        drawX(originX + width + space + 11, xGridSize + 108);
         colorReset();
         ctx.fillText('|', originX + width + space + 9, xGridSize + 128);
-        drawStar(originX + width + space + 11, xGridSize + 142);
+        drawX(originX + width + space + 11, xGridSize + 142);
         colorReset();
         ctx.fillText('蓝', originX + width + space + 6, xGridSize + 182);
         ctx.fillText('色', originX + width + space + 6, xGridSize + 202);
@@ -427,7 +587,8 @@
         ctx.beginPath();
         let axis = [];
         for (let i = 0; i < dataGJKZ.length; i++) {
-            let x = xSpace + yGridSize * (i + 1);
+            // let x = xSpace + yGridSize * (i + 1);
+            let x = dataGJKZ[i].time * yGridSize + xSpace;
             let y = height - xGridSize * dataGJKZ[i].value;
             if (i == 0) {
                 ctx.moveTo(xSpace, y);
@@ -454,7 +615,8 @@
         let axis = [];
         for (let i = 0; i < dataXLXJ.length; i++) {
             dataXLXJ[i].value = dataXLXJ[i].value + 5;
-            let x = xSpace + yGridSize * (i + 1);
+            // let x = xSpace + yGridSize * (i + 1);
+            let x = dataXLXJ[i].time * yGridSize + xSpace;
             let y = height - xGridSize * dataXLXJ[i].value;
             if (i == 0) {
                 ctx.moveTo(xSpace, y);
@@ -468,7 +630,8 @@
 
         for (let i = 0; i < axis.length; i++) {
             if (axis[i].v != null) {
-                drawStar(axis[i].x, axis[i].y);
+                //drawStar(axis[i].x, axis[i].y);
+                drawX(axis[i].x, axis[i].y);
                 //ctx.fillText(axis[i].v, axis[i].x, axis[i].y - 10);
             }
         }
@@ -488,33 +651,41 @@
 
     // 五角星
     function drawStar(x, y) {
-        ctx.fillText('X', x, y);
-        // ctx.beginPath();
-        // var horn = 5; // 画5个角
-        // var angle = 360 / horn; // 五个角的度数
+        ctx.beginPath();
+        var horn = 5; // 画5个角
+        var angle = 360 / horn; // 五个角的度数
 
-        // // 两个圆的半径
-        // var R = 7;
-        // var r = 2.8;
+        // 两个圆的半径
+        var R = 7;
+        var r = 2.8;
 
-        // for (var i = 0; i < horn; i++) {
-        //     // 角度转弧度：角度/180*Math.PI
-        //     // 外圆顶点坐标
-        //     ctx.lineTo(Math.cos((18 + i * angle) / 180 * Math.PI) * R + x, -Math.sin((18 + i * angle) / 180 * Math.PI) * R + y);
-        //     // 內圆顶点坐标
-        //     ctx.lineTo(Math.cos((54 + i * angle) / 180 * Math.PI) * r + x, -Math.sin((54 + i * angle) / 180 * Math.PI) * r + y);
-        // }
+        for (var i = 0; i < horn; i++) {
+            // 角度转弧度：角度/180*Math.PI
+            // 外圆顶点坐标
+            ctx.lineTo(Math.cos((18 + i * angle) / 180 * Math.PI) * R + x, -Math.sin((18 + i * angle) / 180 * Math.PI) * R + y);
+            // 內圆顶点坐标
+            ctx.lineTo(Math.cos((54 + i * angle) / 180 * Math.PI) * r + x, -Math.sin((54 + i * angle) / 180 * Math.PI) * r + y);
+        }
 
-        // // closePath：关闭路径，将路径的终点与起点相连
-        // ctx.closePath();
-        // ctx.fillStyle = '#0000FF';
-        // ctx.strokeStyle = "#0000FF";
-        // ctx.fill();
-        // ctx.stroke();
+        // closePath：关闭路径，将路径的终点与起点相连
+        ctx.closePath();
+        ctx.fillStyle = '#0000FF';
+        ctx.strokeStyle = "#0000FF";
+        ctx.fill();
+        ctx.stroke();
     }
+
+    // X
+    function drawX(x, y) {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = '#0000FF';
+        ctx.fillText('X', x - 5, y + 6);
+    }
+
 
     // 绘制颜色重置
     function colorReset() {
+        ctx.font = "14px Arial";
         ctx.fillStyle = "#000";
         ctx.strokeStyle = "#000";
     }
@@ -544,5 +715,20 @@
 
     $(function () {
         init();
+        layui.use('layer',
+            function () {
+                $("#add-button").click(function () {
+                    layer.open({
+                        title: '数据填写',
+                        type: 1,
+                        area: ['960px', '700px'],
+                        content: $('#dialog'),
+                        btn: ['确认', '关闭'],
+                        yes: function (index, layero) {
+                            layer.close(index);
+                        }
+                    });
+                });
+            });
     })
 </script>

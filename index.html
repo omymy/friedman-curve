@@ -149,7 +149,7 @@
 
         #dialog {
             display: none;
-            padding: 0 20px 0 20px;
+            padding: 20px;
         }
     </style>
     <style media="print">
@@ -376,104 +376,83 @@
     </div>
 
     <div id="dialog">
-        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-            <ul class="layui-tab-title">
-                <li class="layui-this">基本信息</li>
-                <li>宫口扩张</li>
-                <li>先露高低</li>
-                <li>附属表格</li>
-            </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
-                    <form class="layui-form" id="form1">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">姓名</label>
-                            <div class="layui-input-inline">
-                                <input id="PATIENT_NAME" name="PATIENT_NAME" type="text" autocomplete="off"
-                                    class="layui-input">
-                            </div>
-                            <label class="layui-form-label">年龄</label>
-                            <div class="layui-input-inline">
-                                <input id="AGE" name="AGE" type="text" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">胎次</label>
-                            <div class="layui-input-inline">
-                                <input id="TC" name="TC" type="text" autocomplete="off" class="layui-input">
-                            </div>
-                            <label class="layui-form-label">产次</label>
-                            <div class="layui-input-inline">
-                                <input id="CC" name="CC" type="text" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">孕次</label>
-                            <div class="layui-input-inline">
-                                <input id="YC" name="YC" type="text" autocomplete="off" class="layui-input">
-                            </div>
-                            <label class="layui-form-label">孕周</label>
-                            <div class="layui-input-inline">
-                                <input id="YZ" name="YZ" type="text" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">孕产号</label>
-                            <div class="layui-input-inline">
-                                <input id="MATERNITY_NUMBER" name="MATERNITY_NUMBER" type="text" autocomplete="off"
-                                    class="layui-input">
-                            </div>
-                            <label class="layui-form-label">病案号</label>
-                            <div class="layui-input-inline">
-                                <input id="MEDICAL_RECORD_NUMBER" name="MEDICAL_RECORD_NUMBER" type="text"
-                                    autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">备注</label>
-                            <div class="layui-input-inline">
-                                <textarea id="REMARK" name="REMARK" class="layui-textarea"
-                                    style="width: 500px;"></textarea>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="layui-tab-item">
-                    <form class="layui-form" id="gkkz-form">
-                    </form>
-                </div>
-                <div class="layui-tab-item">
-                    <div class="layui-form" id="xlgd-form">
-                    </div>
-                </div>
-                <div class="layui-tab-item">
-                    <table class="layui-table" lay-skin="line">
-                        <colgroup>
-                            <col width="56">
-                            <col width="90">
-                            <col width="90">
-                            <col width="90">
-                            <col width="90">
-                            <col width="90">
-                            <col width="180">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>检查时间</th>
-                                <th>血压</th>
-                                <th></th>
-                                <th>胎心</th>
-                                <th>宫缩</th>
-                                <th>处理</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-form">
-                        </tbody>
-                    </table>
+        <form class="layui-form" id="form1">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="button" value="保存" class="layui-btn layui-btn-sm" style="width: 60px;" />
+                    <input type="button" value="关闭" class="layui-btn layui-btn-danger layui-btn-sm"
+                        style="width: 60px;" />
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input id="PATIENT_NAME" name="PATIENT_NAME" type="text" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">年龄</label>
+                <div class="layui-input-inline">
+                    <input id="AGE" name="AGE" type="text" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">胎次</label>
+                <div class="layui-input-inline">
+                    <input id="TC" name="TC" type="text" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">产次</label>
+                <div class="layui-input-inline">
+                    <input id="CC" name="CC" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">孕次</label>
+                <div class="layui-input-inline">
+                    <input id="YC" name="YC" type="text" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">孕周</label>
+                <div class="layui-input-inline">
+                    <input id="YZ" name="YZ" type="text" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">孕产号</label>
+                <div class="layui-input-inline">
+                    <input id="MATERNITY_NUMBER" name="MATERNITY_NUMBER" type="text" autocomplete="off"
+                        class="layui-input">
+                </div>
+                <label class="layui-form-label">病案号</label>
+                <div class="layui-input-inline">
+                    <input id="MEDICAL_RECORD_NUMBER" name="MEDICAL_RECORD_NUMBER" type="text" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-inline">
+                    <input type="datetime-local" id="START_TIME" max="9999-12-31T23:59" class="layui-input" />
+                </div>
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <input id="REMARK" name="REMARK" style="width:600px" type="text" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+        </form>
+        <div>
+            <input id="add-one-button" type="button" value="新增一行" class="layui-btn layui-btn-normal layui-btn-sm" />
         </div>
+        <table class="layui-table" lay-skin="line">
+            <thead>
+                <tr>
+                    <th>检查时间</th>
+                    <th>宫口扩张</th>
+                    <th>先露高低</th>
+                    <th>血压</th>
+                    <th></th>
+                    <th>胎心</th>
+                    <th>宫缩</th>
+                    <th>处理</th>
+                </tr>
+            </thead>
+            <tbody id="table-form">
+            </tbody>
+        </table>
     </div>
 </body>
 
@@ -483,6 +462,7 @@
 <script>
 
     let _queryContent = "";
+    let _defaultRow = 5;
     let _dataGJKZ = [];
     let _dataXLXJ = [];
 
@@ -862,69 +842,80 @@
         });
     }
 
+    Date.prototype.getFormatTime = function () {
+        this.y = this.getFullYear(),
+            this.m = (this.getMonth() + 1) < 10 ? 0 + "" + (this.getMonth() + 1) : (this.getMonth() + 1),
+            this.d = this.getDate() < 10 ? 0 + "" + this.getDate() : this.getDate(),
+            this.h = this.getHours() < 10 ? 0 + "" + this.getHours() : this.getHours(),
+            this.f = this.getMinutes() < 10 ? 0 + "" + this.getMinutes() : this.getMinutes(),
+            this.toshortdate = this.y + "-" + this.m + "-" + this.d,
+            this.tolongdatetime = this.y + "-" + this.m + "-" + this.d + " " + this.h + ":" + this.f,
+            this.TDate = this.y + "-" + this.m + "-" + this.d,
+            this.TDateTime = this.y + "-" + this.m + "-" + this.d + "T" + this.h + ":" + this.f,
+            this.getLongDate = this.y + this.M + this.d + this.h + this.m
+        //this.getNowDate = this.getLongDate.replace(/(.{4})(.{2})(.{2})(.{2})(.{2})/, "$1-$2-$3 $4:$5")
+        return this;
+    };
+
+    function DateTimeFitFormat(text) {
+        if (!!text) {
+            return text.replace('T', ' ');
+        }
+        return '';
+    }
+
     $(function () {
+
+        var laydate;
+
         init();
 
-        //加载产程图、附属表格表单
-        let gkkzForm = "";
-        let xlgdForm = "";
+        //加载表格表单
         let tableForm = "";
-        for (let i = 0; i <= 24; i++) {
-            gkkzForm += `
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label>${i}</label>
-                            </div>
-                            <div class="layui-inline">
-                                <div class="layui-input-inline">
-                                    <input id="gkkz-time-${i}" type="text" placeholder="时间" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <div class="layui-input-inline">
-                                    <input id="gkkz-val-${i}" type="text" placeholder="数值" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                        </div>`;
-            xlgdForm += `
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label>${i}</label>
-                            </div>
-                            <div class="layui-inline">
-                                <div class="layui-input-inline">
-                                    <input id="xlgd-time-${i}" type="text" placeholder="时间" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <div class="layui-input-inline">
-                                    <input id="xlgd-val-${i}" type="text" placeholder="数值" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                        </div>`;
-            if (i < 24) {
-                tableForm += `
+        for (let i = 0; i <= _defaultRow; i++) {
+            tableForm += `
                         <tr>
-                                <td>${i + 1}</td>
-                                <td><input id="t-time-${i}" type="text" placeholder="检查时间" autocomplete="off" class="layui-input"
-                                        style="width: 86px"></td>
-                                <td>
-                                    <input id="t-sbp-${i}" type="text" placeholder="收缩压" autocomplete="off" class="layui-input" style="width: 86px">
-                                </td>
-                                <td>
-                                    <input id="t-dbp-${i}" type="text" placeholder="舒张压" autocomplete="off" class="layui-input" style="width: 86px">
-                                </td>
-                                <td><input id="t-tx-${i}" type="text" placeholder="胎心" autocomplete="off" class="layui-input"
-                                        style="width: 86px"></td>
-                                <td><input id="t-gs-${i}" type="text" placeholder="宫缩" autocomplete="off" class="layui-input"
-                                        style="width: 86px"></td>
+                                <td><input id="t-time-${i}" type="text" placeholder="检查时间" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-gkkz-${i}" type="text" placeholder="宫口扩张" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-xlxj-${i}" type="text" placeholder="先露下降" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-sbp-${i}" type="text" placeholder="收缩压" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-dbp-${i}" type="text" placeholder="舒张压" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-tx-${i}" type="text" placeholder="胎心" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-gs-${i}" type="text" placeholder="宫缩" autocomplete="off" class="layui-input"></td>
                                 <td><input id="t-cl-${i}" type="text" placeholder="处理" autocomplete="off" class="layui-input"></td>
                             </tr>`;
-            }
         }
-        $('#gkkz-form').html(gkkzForm);
-        $('#xlgd-form').html(xlgdForm);
         $('#table-form').html(tableForm);
+
+        $('#add-one-button').click(function () {
+            _defaultRow++;
+            $('#table-form').append(`
+                        <tr>
+                                <td><input lid="t-time-${_defaultRow}" type="text" placeholder="检查时间" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-gkkz-${_defaultRow}" type="text" placeholder="宫口扩张" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-xlxj-${_defaultRow}" type="text" placeholder="先露下降" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-sbp-${_defaultRow}" type="text" placeholder="收缩压" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-dbp-${_defaultRow}" type="text" placeholder="舒张压" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-tx-${_defaultRow}" type="text" placeholder="胎心" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-gs-${_defaultRow}" type="text" placeholder="宫缩" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-cl-${_defaultRow}" type="text" placeholder="处理" autocomplete="off" class="layui-input"></td>
+                            </tr>`)
+            laydate.render({
+                elem: '#t-time-' + _defaultRow
+                , type: 'time'
+                , format: 'HH:mm'
+                , btns: ['clear', 'confirm']
+                , ready: formatminutes
+            });
+        });
+
+        let t_date = new Date().getFormatTime().TDateTime;
+        $('#START_TIME').val(t_date);
+        $('#t-time-0').val(t_date.split('T')[1]);
+
+        $('#START_TIME').change(function () {
+            $('#t-time-0').val($(this).val().split('T')[1]);
+        });
 
         $('#print-button').click(function () {
             window.print();
@@ -933,7 +924,7 @@
         layui.use('layer',
             function () {
                 $("#add-button").click(function () {
-                    layer.open({
+                    var index = layer.open({
                         title: '数据填写',
                         type: 1,
                         area: ['1060px', '760px'],
@@ -941,7 +932,16 @@
                         btn: ['确认', '关闭'],
                         scrollbar: false,
                         yes: function (index, layero) {
-                            layer.close(index);
+                            //layer.close(index);
+
+                            //layui-form-danger
+                            //if('t-time-')
+                            $("input[name^='t-time-']").each(function (idx, ele) {
+                                if (!$.trim($(this).val())) {
+                                    $(this).addClass('.layui-form-danger');
+                                }
+                            });
+                            return false;
                             _queryContent = $('#form1').serialize();
 
                             let master = {
@@ -956,9 +956,16 @@
                                 YZ: GetQueryString("YZ"),
                                 MATERNITY_NUMBER: GetQueryString("MATERNITY_NUMBER"),
                                 MEDICAL_RECORD_NUMBER: GetQueryString("MEDICAL_RECORD_NUMBER"),
+                                START_TIME: DateTimeFitFormat($('#START_TIME').val()),
                                 REMARK: GetQueryString("REMARK"),
                                 CREATE_USER: ""
                             };
+
+                            let child = [];
+                            for (let i = 0; i <= _defaultRow; i++) {
+
+                            }
+
                             let chart_0 = []; // 宫口扩张
                             let chart_1 = []; // 先露下降
                             let table = [];
@@ -1010,6 +1017,7 @@
                             drawData({ master: master, chart_0: chart_0, chart_1: chart_1, table: table });
                         }
                     });
+                    layer.full(index);
                 });
             });
 
@@ -1018,18 +1026,10 @@
         });
 
         layui.use('laydate', function () {
-            var laydate = layui.laydate;
-            for (let i = 0; i <= 24; i++) {
+            laydate = layui.laydate;
+            for (let i = 0; i <= _defaultRow; i++) {
                 laydate.render({
-                    elem: '#gkkz-time-' + i
-                    , type: 'time'
-                    , format: 'HH:mm'
-                    , btns: ['clear', 'confirm']
-                    , ready: formatminutes
-                });
-
-                laydate.render({
-                    elem: '#xlgd-time-' + i
+                    elem: '#t-time-' + i
                     , type: 'time'
                     , format: 'HH:mm'
                     , btns: ['clear', 'confirm']

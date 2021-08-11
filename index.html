@@ -902,7 +902,8 @@
                                 </div>
                             </div>
                         </div>`;
-            tableForm += `
+            if (i < 24) {
+                tableForm += `
                         <tr>
                                 <td>${i + 1}</td>
                                 <td><input id="t-time-${i}" type="text" placeholder="检查时间" autocomplete="off" class="layui-input"
@@ -919,6 +920,7 @@
                                         style="width: 86px"></td>
                                 <td><input id="t-cl-${i}" type="text" placeholder="处理" autocomplete="off" class="layui-input"></td>
                             </tr>`;
+            }
         }
         $('#gkkz-form').html(gkkzForm);
         $('#xlgd-form').html(xlgdForm);
@@ -989,18 +991,20 @@
                                 }
 
                                 //附属表格
-                                let t_time = $('#t-time-' + i).val();
-                                if ($.trim(t_time)) {
-                                    table.push({
-                                        FRIEDMAN_ID: "",
-                                        SORT: i,
-                                        TIME: t_time,
-                                        SBP: $('#t-sbp-' + i).val(),
-                                        DBP: $('#t-dbp-' + i).val(),
-                                        FETAL_HEART: $('#t-tx-' + i).val(),
-                                        CONTRACTIONS: $('#t-gs-' + i).val(),
-                                        HANDLE: $('#t-cl-' + i).val()
-                                    })
+                                if (i < 24) {
+                                    let t_time = $('#t-time-' + i).val();
+                                    if ($.trim(t_time)) {
+                                        table.push({
+                                            FRIEDMAN_ID: "",
+                                            SORT: i,
+                                            TIME: t_time,
+                                            SBP: $('#t-sbp-' + i).val(),
+                                            DBP: $('#t-dbp-' + i).val(),
+                                            FETAL_HEART: $('#t-tx-' + i).val(),
+                                            CONTRACTIONS: $('#t-gs-' + i).val(),
+                                            HANDLE: $('#t-cl-' + i).val()
+                                        })
+                                    }
                                 }
                             }
                             drawData({ master: master, chart_0: chart_0, chart_1: chart_1, table: table });

@@ -379,8 +379,9 @@
         <form class="layui-form" id="form1">
             <div class="layui-form-item">
                 <div class="layui-input-inline">
-                    <input type="button" value="保存" class="layui-btn layui-btn-sm" style="width: 60px;" />
-                    <input type="button" value="关闭" class="layui-btn layui-btn-danger layui-btn-sm"
+                    <input id="save-button" type="button" value="保存" class="layui-btn layui-btn-sm"
+                        style="width: 60px;" />
+                    <input id="cancel-button" type="button" value="关闭" class="layui-btn layui-btn-danger layui-btn-sm"
                         style="width: 60px;" />
                 </div>
             </div>
@@ -438,6 +439,16 @@
             <input id="add-one-button" type="button" value="新增一行" class="layui-btn layui-btn-normal layui-btn-sm" />
         </div>
         <table class="layui-table" lay-skin="line">
+            <colgroup>
+                <col width="11%">
+                <col width="11%">
+                <col width="11%">
+                <col width="11%">
+                <col width="11%">
+                <col width="11%">
+                <col width="11%">
+                <col width="23%">
+            </colgroup>
             <thead>
                 <tr>
                     <th>检查时间</th>
@@ -460,7 +471,7 @@
 <script src="js/jquery-3.0.0.min.js"></script>
 <script src="js/layui/layui.js"></script>
 <script>
-
+    let _regTime = /^([0-1]{1}\d|2[0-3]):([0-5]\d)$/; // 验证是否时间格式正则
     let _queryContent = "";
     let _defaultRow = 5;
     let _dataGJKZ = [];
@@ -494,10 +505,10 @@
         ctx.lineWidth = 2;
         colorReset();
 
-        console.log(`originX:${originX}`);
-        console.log(`originY:${originY}`);
-        console.log(`width:${width}`);
-        console.log(`height:${height}`);
+        // console.log(`originX:${originX}`);
+        // console.log(`originY:${originY}`);
+        // console.log(`width:${width}`);
+        // console.log(`height:${height}`);
 
         // y轴
         drawLine(originX, originY, originX, space);
@@ -761,20 +772,41 @@
 
     function drawData(data) {
 
+        let time_hour = data.child.map(x => parseInt(x.TIME_HOUR));
+
+        let time_hour_new = [];
+        let val = time_hour[0];
+        let end = time_hour[time_hour.length - 1];
+        let diff_val = 24 - val;
+
+        while (true) {
+            if (val === end) {
+                time_hour_new.push(val);
+                break;
+            }
+            time_hour_new.push(val);
+            val++;
+            if (val > 23) {
+                val = 0;
+            }
+        }
+
         _dataGJKZ = [];
         _dataXLXJ = [];
 
-        _dataGJKZ = data.chart_0.map(x => {
+        _dataGJKZ = data.child.map(x => {
             let time = x.TIME.split(':');
-            let hour = parseInt(time[0]);
+            let hour = parseInt(x.TIME_HOUR);
             let minute = getTimeValue(parseInt(time[1]));
-            return { "time": `${hour}.${minute}`, "value": x.VALUE };
+            let index = time_hour_new.findIndex(x => x === hour);
+            return { "time": `${index}.${minute}`, "value": x.GK_VALUE };
         });
-        _dataXLXJ = data.chart_1.map(x => {
+        _dataXLXJ = data.child.map(x => {
             let time = x.TIME.split(':');
-            let hour = parseInt(time[0]);
+            let hour = parseInt(x.TIME_HOUR);
             let minute = getTimeValue(parseInt(time[1]));
-            return { "time": `${hour}.${minute}`, "value": x.VALUE };
+            let index = time_hour_new.findIndex(x => x === hour);
+            return { "time": `${index}.${minute}`, "value": x.XL_VALUE };
         });
 
         init();
@@ -793,18 +825,20 @@
         ctx.fillText(data.master.MEDICAL_RECORD_NUMBER, xSpace * 20 + 13, topY);
         $('#t_remark').text(data.master.REMARK);
 
-        //检查时间
-        $('table tr:first td').each(function (idx, ele) {
-            let item = data.table.find(x => x.SORT === idx);
-            if (item) {
-                $(ele).children("span").text(item.TIME);
-            }
-        });
+        for (let i = 0; i < 24; i++) {
+            $(`table tr:first td:eq(${i}) span`).text("");
+            $(`table tr:eq(1) td:eq(${i})`).html("");
+            $(`table tr:eq(2) td:eq(${i})`).html("");
+            $(`table tr:eq(3) td:eq(${i})`).html("");
+            $(`table tr:eq(4) td:eq(${i})`).html("");
+        }
 
-        //血压
-        $('table tr:eq(1) td').each(function (idx, ele) {
-            let item = data.table.find(x => x.SORT === idx);
+        for (let i = 0; i < time_hour_new.length; i++) {
+            $(`table tr:first td:eq(${i}) span`).text(time_hour_new[i]);
+            let item = data.child.find(x => x.TIME_HOUR == time_hour_new[i]);
             if (item) {
+
+                //血压
                 let top = "&nbsp;";
                 let bottom = "&nbsp;";
                 if (item.SBP) {
@@ -813,33 +847,16 @@
                 if (item.DBP) {
                     bottom = item.DBP;
                 }
-                $(ele).html(`${top}<hr />${bottom}`);
-            }
-        });
+                $(`table tr:eq(1) td:eq(${i})`).html(`${top}<hr />${bottom}`);
 
-        //胎心
-        $('table tr:eq(2) td').each(function (idx, ele) {
-            let item = data.table.find(x => x.SORT === idx);
-            if (item) {
-                $(ele).html(`${item.FETAL_HEART}`);
+                //胎心
+                $(`table tr:eq(2) td:eq(${i})`).html(`${item.FETAL_HEART}`);
+                //宫缩
+                $(`table tr:eq(3) td:eq(${i})`).html(`${item.CONTRACTIONS}`);
+                //处理
+                $(`table tr:eq(4) td:eq(${i})`).html(`${item.HANDLE}`);
             }
-        });
-
-        //宫缩
-        $('table tr:eq(3) td').each(function (idx, ele) {
-            let item = data.table.find(x => x.SORT === idx);
-            if (item) {
-                $(ele).html(`${item.CONTRACTIONS}`);
-            }
-        });
-
-        //处理
-        $('table tr:eq(4) td').each(function (idx, ele) {
-            let item = data.table.find(x => x.SORT === idx);
-            if (item) {
-                $(ele).html(`${item.HANDLE}`);
-            }
-        });
+        }
     }
 
     Date.prototype.getFormatTime = function () {
@@ -865,8 +882,8 @@
     }
 
     $(function () {
-
         var laydate;
+        var lay_dialog_index;
 
         init();
 
@@ -891,7 +908,7 @@
             _defaultRow++;
             $('#table-form').append(`
                         <tr>
-                                <td><input lid="t-time-${_defaultRow}" type="text" placeholder="检查时间" autocomplete="off" class="layui-input"></td>
+                                <td><input id="t-time-${_defaultRow}" type="text" placeholder="检查时间" autocomplete="off" class="layui-input"></td>
                                 <td><input id="t-gkkz-${_defaultRow}" type="text" placeholder="宫口扩张" autocomplete="off" class="layui-input"></td>
                                 <td><input id="t-xlxj-${_defaultRow}" type="text" placeholder="先露下降" autocomplete="off" class="layui-input"></td>
                                 <td><input id="t-sbp-${_defaultRow}" type="text" placeholder="收缩压" autocomplete="off" class="layui-input"></td>
@@ -921,103 +938,75 @@
             window.print();
         });
 
+        $('#save-button').click(function () {
+
+            _queryContent = $('#form1').serialize();
+
+            let master = {
+                FID: 0,
+                PATIENTID: "",
+                VISITID: "",
+                PATIENT_NAME: GetQueryString("PATIENT_NAME"),
+                AGE: GetQueryString("AGE"),
+                TC: GetQueryString("TC"),
+                CC: GetQueryString("CC"),
+                YC: GetQueryString("YC"),
+                YZ: GetQueryString("YZ"),
+                MATERNITY_NUMBER: GetQueryString("MATERNITY_NUMBER"),
+                MEDICAL_RECORD_NUMBER: GetQueryString("MEDICAL_RECORD_NUMBER"),
+                START_TIME: DateTimeFitFormat($('#START_TIME').val()),
+                REMARK: GetQueryString("REMARK"),
+                CREATE_USER: ""
+            };
+
+            let child = [];
+            let sort = 0;
+            for (let i = 0; i <= _defaultRow; i++) {
+                let time = $.trim($("#t-time-" + i).val());
+                if (time) {
+                    if (!_regTime.test(time)) {
+                        layer.msg('时间格式不正确', { icon: 5 });
+                        $('#t-time-' + i).focus().addClass('layui-form-danger');
+                        return false;
+                    }
+                    time_arr = time.split(':');
+                    if (time_arr.length === 2) {
+                        child.push({
+                            FRIEDMAN_ID: "",
+                            SORT: sort,
+                            TIME: time,
+                            TIME_HOUR: time_arr[0],
+                            GK_VALUE: $("#t-gkkz-" + i).val(),
+                            XL_VALUE: $("#t-xlxj-" + i).val(),
+                            SBP: $("#t-sbp-" + i).val(),
+                            DBP: $("#t-dbp-" + i).val(),
+                            FETAL_HEART: $("#t-tx-" + i).val(),
+                            CONTRACTIONS: $("#t-gs-" + i).val(),
+                            HANDLE: $("#t-cl-" + i).val()
+                        });
+                        sort++;
+                    }
+                }
+            }
+            drawData({ master: master, child: child });
+            layer.close(lay_dialog_index);
+        });
+
+        $('#cancel-button').click(function () {
+            layer.close(lay_dialog_index);
+        });
+
         layui.use('layer',
             function () {
                 $("#add-button").click(function () {
-                    var index = layer.open({
+                    lay_dialog_index = layer.open({
                         title: '数据填写',
                         type: 1,
                         area: ['1060px', '760px'],
                         content: $('#dialog'),
-                        btn: ['确认', '关闭'],
-                        scrollbar: false,
-                        yes: function (index, layero) {
-                            //layer.close(index);
-
-                            //layui-form-danger
-                            //if('t-time-')
-                            $("input[name^='t-time-']").each(function (idx, ele) {
-                                if (!$.trim($(this).val())) {
-                                    $(this).addClass('.layui-form-danger');
-                                }
-                            });
-                            return false;
-                            _queryContent = $('#form1').serialize();
-
-                            let master = {
-                                FID: 0,
-                                PATIENTID: "",
-                                VISITID: "",
-                                PATIENT_NAME: GetQueryString("PATIENT_NAME"),
-                                AGE: GetQueryString("AGE"),
-                                TC: GetQueryString("TC"),
-                                CC: GetQueryString("CC"),
-                                YC: GetQueryString("YC"),
-                                YZ: GetQueryString("YZ"),
-                                MATERNITY_NUMBER: GetQueryString("MATERNITY_NUMBER"),
-                                MEDICAL_RECORD_NUMBER: GetQueryString("MEDICAL_RECORD_NUMBER"),
-                                START_TIME: DateTimeFitFormat($('#START_TIME').val()),
-                                REMARK: GetQueryString("REMARK"),
-                                CREATE_USER: ""
-                            };
-
-                            let child = [];
-                            for (let i = 0; i <= _defaultRow; i++) {
-
-                            }
-
-                            let chart_0 = []; // 宫口扩张
-                            let chart_1 = []; // 先露下降
-                            let table = [];
-
-                            for (let i = 0; i <= 24; i++) {
-                                let time = $('#gkkz-time-' + i).val();
-                                let val = $('#gkkz-val-' + i).val();
-                                let hour;
-                                let minute;
-                                if (time.split(':').length === 2) {
-                                    chart_0.push({
-                                        FRIEDMAN_ID: "",
-                                        CHART_TYPE: 0,
-                                        SORT: i,
-                                        TIME: time,
-                                        VALUE: val
-                                    });
-                                }
-
-                                time = $('#xlgd-time-' + i).val();
-                                val = $('#xlgd-val-' + i).val();
-                                if (time.split(':').length === 2) {
-                                    chart_1.push({
-                                        FRIEDMAN_ID: "",
-                                        CHART_TYPE: 1,
-                                        SORT: i,
-                                        TIME: time,
-                                        VALUE: val
-                                    });
-                                }
-
-                                //附属表格
-                                if (i < 24) {
-                                    let t_time = $('#t-time-' + i).val();
-                                    if ($.trim(t_time)) {
-                                        table.push({
-                                            FRIEDMAN_ID: "",
-                                            SORT: i,
-                                            TIME: t_time,
-                                            SBP: $('#t-sbp-' + i).val(),
-                                            DBP: $('#t-dbp-' + i).val(),
-                                            FETAL_HEART: $('#t-tx-' + i).val(),
-                                            CONTRACTIONS: $('#t-gs-' + i).val(),
-                                            HANDLE: $('#t-cl-' + i).val()
-                                        })
-                                    }
-                                }
-                            }
-                            drawData({ master: master, chart_0: chart_0, chart_1: chart_1, table: table });
-                        }
+                        scrollbar: false
                     });
-                    layer.full(index);
+                    layer.full(lay_dialog_index);
                 });
             });
 
